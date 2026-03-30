@@ -1,0 +1,32 @@
+Hivatalos helyesírás és szabadon hivatkozható összefoglalók (Formater / szótár-karbantartás)
+
+1) MTA — digitális AkH (11. kiadás és kapcsolódó anyagok)
+   https://helyesiras.mta.hu/helyesiras/default/akh12
+   A Magyar Tudományos Akadémia „helyesiras.mta.hu” oldala az érvényes szabályzat
+   digitális változatát adja (keresés, szabályszámok).
+
+2) Wikiforrás — AkH részlet: rövidítések és mozaikszók (276–287.)
+   https://hu.wikisource.org/wiki/A_magyar_helyes%C3%ADr%C3%A1s_szab%C3%A1lyai/A_r%C3%B6vid%C3%ADt%C3%A9sek_%C3%A9s_a_mozaiksz%C3%B3k
+   A lap szövege a Wikiforrás szerint Creative Commons Nevezd meg! – Így add tovább! 4.0
+   alatt érhető el; a szabályok szerzői jogi státusza ettől függetlenül az eredeti kiadványra
+   vonatkozik — a program csak hivatkozást és szűk, ellenőrzött szólistát tartalmaz.
+
+----------------------------------------------------------------------
+Mi köze ennek a Formaterhez?
+
+• A szöveg-javító tokenizálása jelenleg így működik: csak betűsorozatok
+  (Unicode \p{L}, opcionálisan aposztróf), lásd spell.rs / learn.rs.
+  Ezért a „Bp.”, „stb.” végi pont a token határán kívül esik — a belső token
+  (Bp, stb) kerül a szótár ellen.
+
+• Rövidítések: sok gyakori forma után pont áll (pl. kb., ill., szerk.);
+  a mozaikszók (betűszók, szóösszevonások) elemei közé és végére nem teszünk pontot
+  (pl. NATO, gmk, tsz) — összhangban az AkH 285. körüli szabályával a fenti források szerint.
+
+• Toldalék: rövidítésekhez, jelekhez gyakran kötőjellel kapcsoljuk a toldalékot
+  (pl. u.-ban, Ft-tal); a program jelenleg nem bontja külön a kötőjeles toldalékos
+  alakokat — ha kell, később bővíthető a tokenizálás.
+
+• Az embedded_hu_abbreviations.dic szándékosan szűk lista: gyakori rövidítés- és
+  mozaikszó-tokenek, hogy a SymSpell ne „javítsa” szét őket. Teljes jegyzékhez
+  használd az MTA oldalt / nyomtatott AkH-t.

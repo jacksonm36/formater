@@ -1,0 +1,15 @@
+Magyar ábécé (hivatalos sorrend; a kettősbetűk egy-egy betűnek számítanak)
+
+  a, á, b, c, cs, d, dz, dzs, e, é, f, g, gy, h, i, í, j, k, l, ly, m, n, ny,
+  o, ó, ö, ő, p, (q), r, s, sz, t, ty, u, ú, ü, ű, v, (w), (x), (y), z, zs
+
+A zárójelben lévő betűk csak idegen szavakban, nevekben fordulnak elő.
+
+A SymSpell tokenizálása Unicode betűket (\p{L}) kezel, tehát az ékezetes magyar
+betűk (á, é, í, ó, ö,ő, ú, ü, ű) a szavakban normálisan részt vesznek.
+
+A kettősbetűk (cs, dz, dzs, gy, ly, ny, sz, ty, zs) külön szóként ritkán
+fordulnak elő; az embedded_hu_alphabet.dic ezeket is felveszi a szótárba.
+
+Rövidítések, mozaikszók, és a program tokenizálása: HU_ORTHOGRAPHY_AKH.txt
+(MTA digitális AkH + Wikiforrás AkH-részlet, hivatkozásokkal).

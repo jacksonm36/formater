@@ -1,1 +1,3 @@
 /target
+# Ideiglenes letöltés a Hermit Dave lista újragenerálásához (lásd scripts/build_hu_frequency_dic.py)
+/assets/hu_freq_50k_raw.txt

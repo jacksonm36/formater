@@ -12,6 +12,15 @@ const EMBEDDED_HU_DIC: &str =
 /// Hunspell `.aff` nélkül hiányzó gyakori alakok (pl. *kicsit* a *kicsi* tőhöz képest).
 const EMBEDDED_HU_SUPPLEMENT_DIC: &str =
     include_str!(concat!(env!("CARGO_MANIFEST_DIR"), "/assets/embedded_hu_supplement.dic"));
+/// Gyakori magyar szavak (OpenSubtitles alapú gyakorisági lista, MIT) — lásd `HU_DICTIONARY_SOURCE.txt`.
+const EMBEDDED_HU_FREQUENCY_DIC: &str =
+    include_str!(concat!(env!("CARGO_MANIFEST_DIR"), "/assets/hu_frequency_hermitdave.dic"));
+/// Magyar kettősbetűk (cs, dzs, …) önálló tokenként — `HUNGARIAN_ALPHABET.txt`.
+const EMBEDDED_HU_ALPHABET_DIC: &str =
+    include_str!(concat!(env!("CARGO_MANIFEST_DIR"), "/assets/embedded_hu_alphabet.dic"));
+/// Gyakori rövidítés- és mozaikszó-tokenek (AkH / MTA, Wikiforrás összefoglaló) — `HU_ORTHOGRAPHY_AKH.txt`.
+const EMBEDDED_HU_ABBREV_DIC: &str =
+    include_str!(concat!(env!("CARGO_MANIFEST_DIR"), "/assets/embedded_hu_abbreviations.dic"));
 /// IT / hálózat / biztonság: angol és magyar kiegészítő szótár (router, switch, tűzfal, VLAN, stb.).
 const EMBEDDED_TECH_EN_DIC: &str =
     include_str!(concat!(env!("CARGO_MANIFEST_DIR"), "/assets/embedded_tech_en.dic"));
@@ -56,6 +65,9 @@ impl SpellEngine {
         push_words_into_sym(&mut sym, &parse_hunspell_dic_str(EMBEDDED_EN_DIC));
         push_words_into_sym(&mut sym, &parse_hunspell_dic_str(EMBEDDED_HU_DIC));
         push_words_into_sym(&mut sym, &parse_hunspell_dic_str(EMBEDDED_HU_SUPPLEMENT_DIC));
+        push_words_into_sym(&mut sym, &parse_hunspell_dic_str(EMBEDDED_HU_FREQUENCY_DIC));
+        push_words_into_sym(&mut sym, &parse_hunspell_dic_str(EMBEDDED_HU_ALPHABET_DIC));
+        push_words_into_sym(&mut sym, &parse_hunspell_dic_str(EMBEDDED_HU_ABBREV_DIC));
         push_words_into_sym(&mut sym, &parse_hunspell_dic_str(EMBEDDED_TECH_EN_DIC));
         push_words_into_sym(&mut sym, &parse_hunspell_dic_str(EMBEDDED_TECH_HU_DIC));
         for p in extra_dic_paths {
@@ -268,6 +280,24 @@ mod tests {
         let max = 2_i64;
         assert_eq!(engine.correct_word("kicsit", max), "kicsit");
         assert_eq!(engine.correct_word("szósz", max), "szósz");
+    }
+
+    #[test]
+    fn hungarian_digraphs_recognized() {
+        let engine = SpellEngine::from_paths_with_embedded(&[]).expect("embedded dic");
+        let max = 2_i64;
+        for w in ["cs", "dz", "dzs", "gy", "ly", "ny", "sz", "ty", "zs"] {
+            assert_eq!(engine.correct_word(w, max), w, "{w}");
+        }
+    }
+
+    #[test]
+    fn hungarian_abbreviation_tokens_unchanged() {
+        let engine = SpellEngine::from_paths_with_embedded(&[]).expect("embedded dic");
+        let max = 2_i64;
+        for w in ["stb", "kb", "szerk", "nato", "Bp", "OTP"] {
+            assert_eq!(engine.correct_word(w, max), w, "{w}");
+        }
     }
 
     #[test]

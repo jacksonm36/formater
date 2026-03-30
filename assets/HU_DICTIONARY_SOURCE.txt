@@ -1,11 +1,26 @@
-Teljes magyar szótár (beépítve: hu_HU_libreoffice.dic)
+Beépített magyar szótár-rétegek (fordítási sorrend a forráskódban)
 
-Forrás: LibreOffice dictionaries — hu_HU
-  https://github.com/LibreOffice/dictionaries/tree/master/hu_HU
-  (letöltés: hu_HU.dic, a projektben hu_HU_libreoffice.dic néven)
+1) hu_HU_libreoffice.dic — LibreOffice Hunspell hu_HU
+   https://github.com/LibreOffice/dictionaries/tree/master/hu_HU
+   Licenc: MPL 2.0 (és a repó COPYING / README szerint). Csak a .dic kerül SymSpell-be;
+   a .aff ragrendszer nincs feldolgozva.
 
-Licenc: a LibreOffice szótárak licencét lásd a fenti repóban (jellemzően MPL 2.0 /
-  a szótár README és COPYING fájljai szerint). A .aff fájlt a SymSpell útvonal nem
-  használja; csak a .dic szóalakok kerülnek be a javaslatmotorba. Ezért van külön
-  egy rövid embedded_hu_supplement.dic a leggyakoribb, ragokkal képzett alakokra,
-  amelyek a nagy szótárban csak tőként szerepelnek.
+2) embedded_hu_supplement.dic — kézi kiegészítés: gyakori alakok, amik a Hunspell-ben
+   gyakran csak tő + rag, így a nyers .dic listában hiányoznak (pl. „kicsit”).
+
+3) hu_frequency_hermitdave.dic — Hermit Dave / FrequencyWords, magyar hu_50k lista
+   (OpenSubtitles 2018 alapú gyakoriság, első oszlop = szó).
+   https://github.com/hermitdave/FrequencyWords — MIT License (lásd upstream LICENSE).
+   Újragenerálás: python scripts/build_hu_frequency_dic.py (letölti a nyers fájlt, ha hiányzik).
+
+4) embedded_hu_alphabet.dic — magyar kettősbetűk tokenként: cs, dz, dzs, gy, ly, ny, sz, ty, zs.
+   Hivatalos ábécé-sorrend és megjegyzés: HUNGARIAN_ALPHABET.txt
+
+5) embedded_hu_abbreviations.dic — gyakori magyar rövidítés- és mozaikszó-tokenek (AkH jellegű
+   lista, a program tokenizálásához igazítva). Hivatkozások és szabályösszefoglaló:
+   HU_ORTHOGRAPHY_AKH.txt (MTA helyesiras.mta.hu / Wikiforrás AkH-részlet).
+
+6) embedded_tech_hu.dic — IT / hálózat magyar + anglicizmusok.
+
+Megjegyzés: más, ISO-8859-2 kódolású .dic fájlok (pl. régi OpenOffice csomagok) nem
+kerülnek be változtatás nélkül — UTF-8 kell az include_str! beágyazáshoz.
