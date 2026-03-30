@@ -31,7 +31,9 @@ GUI: cargo build --release → target\release\formater-gui.exe
 
 Beépített szótár: az exe a projekt assets/ mappájából beágyazott .dic fájlokat tölt
   (Hunspell-szerű első sor + szavak). Sorrend: alap angol (embedded_en.dic),
-  alap magyar (embedded_hu.dic), majd IT / hálózat / biztonság kiegészítők
+  teljes magyar LibreOffice hu_HU.dic (assets/hu_HU_libreoffice.dic — lásd
+  assets/HU_DICTIONARY_SOURCE.txt), majd egy kis SymSpell-kiegészítő
+  (embedded_hu_supplement.dic), aztán IT / hálózat / biztonság kiegészítők
   (embedded_tech_en.dic, embedded_tech_hu.dic — router, tűzfal, VLAN, stb.).
   A helyesírás így külső fájl nélkül is működik; a dicts/ mappa továbbra is
   bővítheti (opcionális .dic útvonalak ezek után egyesülnek; teljes Hunspell

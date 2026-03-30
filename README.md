@@ -1,6 +1,6 @@
 # Formater
 
-Word (`.docx`) és Excel (`.xlsx`) szövegfeldolgozás Rustban: ismétlődő mondatok igazítása, beépített EN/HU/IT szótár (SymSpell), opcionális Hunspell, tanuló javítások (`learned_habits.json`).
+Word (`.docx`) és Excel (`.xlsx`) szövegfeldolgozás Rustban: ismétlődő mondatok igazítása, beépített rövid angol + **teljes LibreOffice magyar** (`hu_HU.dic`, ~97k szótő) + IT kiegészítők (SymSpell), opcionális natív Hunspell, tanuló javítások (`learned_habits.json`). Részletek: [assets/HU_DICTIONARY_SOURCE.txt](assets/HU_DICTIONARY_SOURCE.txt).
 
 ## Előre fordított Windows binárisok
 

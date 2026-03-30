@@ -4,9 +4,14 @@ use std::borrow::Cow;
 use std::path::Path;
 use symspell::{SymSpell, UnicodeStringStrategy, Verbosity};
 
-/// Beépített (exe-ben lévő) alap angol + magyar szólista (.dic formátum).
+/// Beépített (exe-ben lévő) alap angol + teljes magyar Hunspell szólista (.dic).
 const EMBEDDED_EN_DIC: &str = include_str!(concat!(env!("CARGO_MANIFEST_DIR"), "/assets/embedded_en.dic"));
-const EMBEDDED_HU_DIC: &str = include_str!(concat!(env!("CARGO_MANIFEST_DIR"), "/assets/embedded_hu.dic"));
+/// LibreOffice `hu_HU` szótár — lásd `assets/HU_DICTIONARY_SOURCE.txt`.
+const EMBEDDED_HU_DIC: &str =
+    include_str!(concat!(env!("CARGO_MANIFEST_DIR"), "/assets/hu_HU_libreoffice.dic"));
+/// Hunspell `.aff` nélkül hiányzó gyakori alakok (pl. *kicsit* a *kicsi* tőhöz képest).
+const EMBEDDED_HU_SUPPLEMENT_DIC: &str =
+    include_str!(concat!(env!("CARGO_MANIFEST_DIR"), "/assets/embedded_hu_supplement.dic"));
 /// IT / hálózat / biztonság: angol és magyar kiegészítő szótár (router, switch, tűzfal, VLAN, stb.).
 const EMBEDDED_TECH_EN_DIC: &str =
     include_str!(concat!(env!("CARGO_MANIFEST_DIR"), "/assets/embedded_tech_en.dic"));
@@ -50,6 +55,7 @@ impl SpellEngine {
         let mut sym = SymSpell::default();
         push_words_into_sym(&mut sym, &parse_hunspell_dic_str(EMBEDDED_EN_DIC));
         push_words_into_sym(&mut sym, &parse_hunspell_dic_str(EMBEDDED_HU_DIC));
+        push_words_into_sym(&mut sym, &parse_hunspell_dic_str(EMBEDDED_HU_SUPPLEMENT_DIC));
         push_words_into_sym(&mut sym, &parse_hunspell_dic_str(EMBEDDED_TECH_EN_DIC));
         push_words_into_sym(&mut sym, &parse_hunspell_dic_str(EMBEDDED_TECH_HU_DIC));
         for p in extra_dic_paths {
@@ -254,6 +260,14 @@ mod tests {
                 "expected no correction for {w:?}"
             );
         }
+    }
+
+    #[test]
+    fn hungarian_kicsit_szosz_not_stripped_to_shorter_words() {
+        let engine = SpellEngine::from_paths_with_embedded(&[]).expect("embedded dic");
+        let max = 2_i64;
+        assert_eq!(engine.correct_word("kicsit", max), "kicsit");
+        assert_eq!(engine.correct_word("szósz", max), "szósz");
     }
 
     #[test]

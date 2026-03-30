@@ -1,0 +1,11 @@
+Teljes magyar szótár (beépítve: hu_HU_libreoffice.dic)
+
+Forrás: LibreOffice dictionaries — hu_HU
+  https://github.com/LibreOffice/dictionaries/tree/master/hu_HU
+  (letöltés: hu_HU.dic, a projektben hu_HU_libreoffice.dic néven)
+
+Licenc: a LibreOffice szótárak licencét lásd a fenti repóban (jellemzően MPL 2.0 /
+  a szótár README és COPYING fájljai szerint). A .aff fájlt a SymSpell útvonal nem
+  használja; csak a .dic szóalakok kerülnek be a javaslatmotorba. Ezért van külön
+  egy rövid embedded_hu_supplement.dic a leggyakoribb, ragokkal képzett alakokra,
+  amelyek a nagy szótárban csak tőként szerepelnek.
